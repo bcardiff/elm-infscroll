@@ -1,0 +1,14 @@
+h1 { color: blue; }
+
+document, body {
+  overflow: hidden;
+}
+
+#wrapper {
+  height: 400px;
+}
+
+.inf-scroll-container {
+  overflow-y: scroll;
+  height: 100%;
+}
