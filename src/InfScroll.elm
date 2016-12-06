@@ -19,6 +19,8 @@ type Config model item msg
     = Config { loadMore : model -> msg
       , msgWrapper : Msg -> msg
       , itemView : item -> Html msg
+      , loadingIndicator : Html msg
+      , hasMore : model -> Bool
       }
 
 update : Config model item msg -> model -> Msg -> (model, Cmd msg)
@@ -35,10 +37,10 @@ update (Config cfg) model msg =
             else
               (model, Cmd.none)
 
-view : Config model item msg -> List item -> Html msg
-view (Config cfg) items =
+view : Config model item msg -> model -> List item -> Html msg
+view (Config cfg) model items =
   div [ class "inf-scroll-container", onScroll (cfg.msgWrapper << Scroll) ]
-    (List.map cfg.itemView items)
+    ((List.map cfg.itemView items) ++ (if (cfg.hasMore model) then [cfg.loadingIndicator] else []))
 
 unreachable =
     (\_ -> Debug.crash "This failure cannot happen.")

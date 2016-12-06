@@ -42,7 +42,7 @@ view model =
           [ text ("Showing " ++ (toString model.reached) ++ " numbers")
           ]
       , div [ id "wrapper" ] [
-          InfScroll.view cfg items
+          InfScroll.view cfg model items
         ]
       ]
 
@@ -53,6 +53,8 @@ cfg = InfScroll.Config
     { loadMore = \ m -> LoadMore m.reached
     , msgWrapper = InfS
     , itemView = itemView
+    , loadingIndicator = div [] [ text "loading..." ]
+    , hasMore = always True
     }
 
 stylesheet =
