@@ -1,4 +1,13 @@
-module InfScroll exposing (..)
+module InfScroll exposing (Msg, Config(..), update, view)
+
+{-|
+This modules implements infinite scroll ui pattern.
+
+@docs Config
+@docs update
+@docs view
+@docs Msg
+-}
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -13,8 +22,14 @@ type alias Pos =
   , containerHeight : Int
   }
 
+{-|
+  Messages to be wrapped.
+-}
 type Msg = Scroll Pos
 
+{-|
+  Configuration of the InfScroll component.
+-}
 type Config model item msg
     = Config { loadMore : model -> msg
       , msgWrapper : Msg -> msg
@@ -23,6 +38,9 @@ type Config model item msg
       , hasMore : model -> Bool
       }
 
+{-|
+  Handle update messages of the InfScroll component.
+-}
 update : Config model item msg -> model -> Msg -> (model, Cmd msg)
 update (Config cfg) model msg =
     case msg of
@@ -37,6 +55,9 @@ update (Config cfg) model msg =
             else
               (model, Cmd.none)
 
+{-|
+  Handle rendering of the InfScroll component.
+-}
 view : Config model item msg -> model -> List item -> Html msg
 view (Config cfg) model items =
   div [ class "inf-scroll-container", onScroll (cfg.msgWrapper << Scroll) ]
