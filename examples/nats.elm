@@ -1,7 +1,6 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.App exposing (..)
 import Html.Attributes exposing (..)
 import InfScroll
 
@@ -12,7 +11,7 @@ type alias Model =
 type Msg = LoadMore Int | InfS InfScroll.Msg
 
 main =
-    Html.App.program
+    Html.program
         { init = init
         , view = view
         , update = update
@@ -34,7 +33,7 @@ update msg model =
 
 view model =
   let
-    items = [1..model.reached]
+    items = List.range 1 model.reached
   in
     div []
       [ stylesheet
